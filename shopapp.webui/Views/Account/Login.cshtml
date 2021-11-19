@@ -1,0 +1,114 @@
+﻿@model LoginModel
+
+<link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/jquery/jquery.min.js"></script>
+<link href="~/css/login.css" rel="stylesheet" />
+
+<div class="container">
+
+    <div class="row" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+            <form asp-controller="Account" asp-action="Login" method="post" role="form">
+                <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <fieldset>
+                    <h2>Lütfen giriş yapınız...</h2>
+                    <hr class="colorgraph">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input class="form-control" asp-for="Email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <input class="form-control" asp-for="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <span class="button-checkbox">
+                        <button type="button" class="btn" data-color="info">Beni hatırla</button>
+                        <input type="checkbox" name="remember_me" id="remember_me" checked="checked" class="hidden">
+                        <a href="/account/forgotpassword" class="btn btn-link pull-right">Şifreni mi Unuttun?</a>
+                    </span>
+                    <hr class="colorgraph">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <button type="submit" class="btn btn-lg btn-success btn-block">Giriş Yap</button>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            <a href="/account/register" class="btn btn-lg btn-primary btn-block">Kayıt Ol</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<script>
+    $(function () {
+        $('.button-checkbox').each(function () {
+            var $widget = $(this),
+                $button = $widget.find('button'),
+                $checkbox = $widget.find('input:checkbox'),
+                color = $button.data('color'),
+                settings = {
+                    on: {
+                        icon: 'glyphicon glyphicon-check'
+                    },
+                    off: {
+                        icon: 'glyphicon glyphicon-unchecked'
+                    }
+                };
+
+            $button.on('click', function () {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+                $checkbox.triggerHandler('change');
+                updateDisplay();
+            });
+
+            $checkbox.on('change', function () {
+                updateDisplay();
+            });
+
+            function updateDisplay() {
+                var isChecked = $checkbox.is(':checked');
+                // Set the button's state
+                $button.data('state', (isChecked) ? "on" : "off");
+
+                // Set the button's icon
+                $button.find('.state-icon')
+                    .removeClass()
+                    .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+                // Update the button's color
+                if (isChecked) {
+                    $button
+                        .removeClass('btn-default')
+                        .addClass('btn-' + color + ' active');
+                }
+                else {
+                    $button
+                        .removeClass('btn-' + color + ' active')
+                        .addClass('btn-default');
+                }
+            }
+            function init() {
+                updateDisplay();
+                // Inject the icon if applicable
+                if ($button.find('.state-icon').length == 0) {
+                    $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                }
+            }
+            init();
+        });
+    });
+</script>

@@ -1,0 +1,61 @@
+﻿<div class="navbar bg-info navbar-dark navbar-expand-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/"><img class="" src="~/img//logo.jpeg" alt="" width="30" height="30">BulBuluştur</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a href="/products" class="nav-link">Anasayfa</a>
+            </li>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a href="/cart/index" class="nav-link">Sepetim</a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Siparişler</a>
+                </li>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a href="/admin/products" class="nav-link">Admin Ürünler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">Admin Kategoriler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/role/list" class="nav-link">Admin Rol Yönetimi</a>
+                    </li>
+                }
+
+            }
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        @User.Identity.Name
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/account/logout" class="nav-link">Çıkış Yap</a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a href="/account/login" class="nav-link">Giriş Yap</a>
+                </li>
+                @*<li class="nav-item">
+                    <a href="/account/register" class="nav-link">Kayıt Ol</a>
+                </li>*@
+
+            }
+        </ul>
+
+
+    </div>
+</div>
